@@ -1,32 +1,22 @@
 import { Router } from 'express';
-import { verifyAuthToken } from '../middleware/auth.middleware.js';
-import { getUserData } from '../controllers/users.controllers.js';
+import { verifyAuthToken, isAdmin } from '../middleware/auth.middleware.js';
+import {
+  getUserData,
+  getAllUsers,
+  createUser,
+  deleteUser,
+  updateUser,
+} from '../controllers/users.controllers.js';
 
 const router = Router();
 
-router.get('/api/users', (req, res) => {
-  res.send('Obteniendo todos los usuarios');
-});
+// --- Rutas de Admin (Requieren Token + Rol Admin) ---
+router.get('/api/users', verifyAuthToken, isAdmin, getAllUsers);
+router.post('/api/users', verifyAuthToken, isAdmin, createUser);
+router.delete('/api/users/:id', verifyAuthToken, isAdmin, deleteUser);
+router.put('/api/users/:id', verifyAuthToken, isAdmin, updateUser);
 
-// router.get('/users/:id', (req, res) => {
-//   const { id } = req.params;
-//   res.send(`Obteniendo el usuario ${id}`);
-// });
-// Esta ruta necesita el Token JWT para funcionar
-router.get('/api/user', verifyAuthToken, getUserData);
-
-router.post('/api/users', (req, res) => {
-  res.send('Creando un usuario');
-});
-
-router.delete('/api/users/:id', (req, res) => {
-  const { id } = req.params;
-  res.send(`Eliminando el usuario ${id}`);
-});
-
-router.put('/api/users/:id', (req, res) => {
-  const { id } = req.params;
-  res.send(`Actualizando el usuario ${id}`);
-});
+// --- Rutas de Usuario (Requieren solo Token) ---
+router.get('/api/user', verifyAuthToken, getUserData); // Obtener datos del usuario logueado
 
 export default router;
