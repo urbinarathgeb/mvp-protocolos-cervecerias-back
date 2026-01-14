@@ -3,8 +3,12 @@
 CREATE TABLE users (
     id SERIAL PRIMARY KEY NOT NULL UNIQUE, 
     firebase_uid VARCHAR(128) NOT NULL UNIQUE, 
-    name VARCHAR(100) NOT NULL, 
-    email VARCHAR(100) NOT NULL UNIQUE, 
+    brewery_name VARCHAR(100) NOT NULL, 
+    brewery_email VARCHAR(100) NOT NULL UNIQUE, 
+    address VARCHAR(255),
+    comune VARCHAR(100),
+    phone_number VARCHAR(20),
+    website VARCHAR(255),
     role VARCHAR(10) NOT NULL DEFAULT 'user', 
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     );
