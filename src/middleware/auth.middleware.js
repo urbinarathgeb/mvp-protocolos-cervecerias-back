@@ -18,7 +18,7 @@ export const verifyAuthToken = async (req, res, next) => {
     const firebase_uid = decodedToken.uid;
     // 3. Obtener el Rol del Usuario desde PostgreSQL
     const queryText =
-      'SELECT id, firebase_uid, role, name, email FROM users WHERE firebase_uid = $1;';
+      'SELECT id, firebase_uid, role, brewery_name, brewery_email, address, commune, phone_number, website FROM users WHERE firebase_uid = $1;';
     const result = await pool.query(queryText, [firebase_uid]);
 
     if (result.rows.length === 0) {

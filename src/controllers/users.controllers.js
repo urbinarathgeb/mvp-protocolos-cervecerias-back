@@ -4,14 +4,27 @@ import { pool } from '../db.js';
 // Nota: Gracias al middleware, req.user ya contiene los datos de PostgreSQL.
 export const getUserData = (req, res) => {
   // req.user fue llenado por verifyAuthToken: { id, role, name, email, firebase_uid }
-  const { id, name, role, email } = req.user;
+  const {
+    id,
+    brewery_name,
+    role,
+    brewery_email,
+    address,
+    comune,
+    phone_number,
+    website,
+  } = req.user;
 
   // Solo enviamos los datos esenciales de vuelta al frontend
   res.json({
     id,
-    name,
+    brewery_name,
     role,
-    email,
+    brewery_email,
+    address,
+    comune,
+    phone_number,
+    website,
   });
 };
 
@@ -26,27 +39,47 @@ export const getAllUsers = async (req, res) => {
 };
 
 export const createUser = async (req, res) => {
-  const { email, password, name, role } = req.body;
+  const {
+    brewery_email,
+    brewery_name,
+    password,
+    role,
+    address,
+    comune,
+    phone_number,
+    website,
+  } = req.body;
 
-  if (!email || !password || !name) {
+  if (
+    !brewery_email ||
+    !password ||
+    !brewery_name ||
+    !address ||
+    !comune ||
+    !phone_number
+  ) {
     return res.status(400).json({ message: 'Faltan datos obligatorios' });
   }
   try {
     const firebaseUser = await admin.auth().createUser({
-      email,
+      email: brewery_email,
       password,
-      displayName: name,
+      displayName: brewery_name,
     });
 
     const firebase_uid = firebaseUser.uid;
     const userRole = role || 'user';
     const queryText =
-      'INSERT INTO users (firebase_uid, email, name, role) VALUES ($1, $2, $3, $4) RETURNING *';
+      'INSERT INTO users (firebase_uid, brewery_email, brewery_name, address, comune, phone_number, website, role) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
 
     const result = await pool.query(queryText, [
       firebase_uid,
-      email,
-      name,
+      brewery_email,
+      brewery_name,
+      address,
+      comune,
+      phone_number,
+      website,
       userRole,
     ]);
 
@@ -98,7 +131,7 @@ export const updateUser = async (req, res) => {
 
   try {
     const result = await pool.query(
-      'UPDATE users SET name = COALESCE($1, name), role = COALESCE($2, role) WHERE id = $3 RETURNING *',
+      'UPDATE users SET brewery_name = COALESCE($1, brewery_name), role = COALESCE($2, role) WHERE id = $3 RETURNING *',
       [name, role, id]
     );
 
