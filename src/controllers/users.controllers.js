@@ -45,7 +45,7 @@ export const createUser = async (req, res) => {
     password,
     role,
     address,
-    comune,
+    commune,
     phone_number,
     website,
   } = req.body;
@@ -55,11 +55,12 @@ export const createUser = async (req, res) => {
     !password ||
     !brewery_name ||
     !address ||
-    !comune ||
+    !commune ||
     !phone_number
   ) {
     return res.status(400).json({ message: 'Faltan datos obligatorios' });
   }
+
   try {
     const firebaseUser = await admin.auth().createUser({
       email: brewery_email,
@@ -70,14 +71,14 @@ export const createUser = async (req, res) => {
     const firebase_uid = firebaseUser.uid;
     const userRole = role || 'user';
     const queryText =
-      'INSERT INTO users (firebase_uid, brewery_email, brewery_name, address, comune, phone_number, website, role) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
+      'INSERT INTO users (firebase_uid, brewery_email, brewery_name, address, commune, phone_number, website, role) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
 
     const result = await pool.query(queryText, [
       firebase_uid,
       brewery_email,
       brewery_name,
       address,
-      comune,
+      commune,
       phone_number,
       website,
       userRole,

@@ -6,7 +6,7 @@ CREATE TABLE users (
     brewery_name VARCHAR(100) NOT NULL, 
     brewery_email VARCHAR(100) NOT NULL UNIQUE, 
     address VARCHAR(255),
-    comune VARCHAR(100),
+    commune VARCHAR(100),
     phone_number VARCHAR(20),
     website VARCHAR(255),
     role VARCHAR(10) NOT NULL DEFAULT 'user', 
