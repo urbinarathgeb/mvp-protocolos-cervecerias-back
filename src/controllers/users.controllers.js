@@ -127,12 +127,29 @@ export const deleteUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   const { id } = req.params;
-  const { name, role } = req.body; // Asumimos que solo se edita name y role en DB por ahora
+  const {
+    brewery_name,
+    brewery_email,
+    address,
+    commune,
+    phone_number,
+    website,
+    role,
+  } = req.body; // Asumimos que solo se edita name y role en DB por ahora
 
   try {
     const result = await pool.query(
-      'UPDATE users SET brewery_name = COALESCE($1, brewery_name), role = COALESCE($2, role) WHERE id = $3 RETURNING *',
-      [name, role, id]
+      'UPDATE users SET brewery_name = COALESCE($1, brewery_name), brewery_email = COALESCE($2, brewery_email), address = COALESCE($3, address), commune = COALESCE($4, commune), phone_number = COALESCE($5, phone_number), website = COALESCE($6, website), role = COALESCE($7, role) WHERE id = $8 RETURNING *',
+      [
+        brewery_name,
+        brewery_email,
+        address,
+        commune,
+        phone_number,
+        website,
+        role,
+        id,
+      ],
     );
 
     if (result.rows.length === 0) {
