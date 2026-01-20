@@ -30,19 +30,19 @@ VALUES ('kqlXXM4a7YPorAarZj72N5k79pF2', 'user_3@mail.com', 'User 3', 'user');
 -- equipos
 
 -- Tabla para el desplegable de Categorías
-CREATE TABLE categorias_equipo (
+CREATE TABLE equipment (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) UNIQUE NOT NULL
 );
 
 -- Tabla para el desplegable de Materiales
-CREATE TABLE materiales (
+CREATE TABLE materials (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) UNIQUE NOT NULL
 );
 
 -- 3. Tabla de Equipos (La que crece con el usuario)
-CREATE TABLE equipos (
+CREATE TABLE user_protocols (
     id SERIAL PRIMARY KEY,
     user_id VARCHAR(128) REFERENCES users(firebase_uid),
     codigo_interno VARCHAR(20) NOT NULL, -- El identificador único (Ej: FERM-01)
