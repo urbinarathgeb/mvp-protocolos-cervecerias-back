@@ -47,15 +47,15 @@ CREATE TABLE user_protocols (
     user_id VARCHAR(128) REFERENCES users(firebase_uid),
     codigo_interno VARCHAR(20) NOT NULL, -- El identificador único (Ej: FERM-01)
     nombre_personalizado VARCHAR(100),   -- El nombre que el usuario quiera
-    categoria_id INT REFERENCES categorias_equipo(id),
-    material_id INT REFERENCES materiales(id),
+    categoria_id INT REFERENCES equipment(id),
+    material_id INT REFERENCES materials(id),
     volumen_litros FLOAT NOT NULL,       -- El número manual que el usuario ingresa
     tiene_cip BOOLEAN DEFAULT FALSE      -- Si tiene o no sistema de limpieza CIP
 );
 
 -- llenando las tablas de desplegable
-INSERT INTO categorias_equipo (nombre) VALUES 
+INSERT INTO equipment (nombre) VALUES 
 ('Fermentador'), ('Molino'), ('Mangueras y tuberías'), ('Olla de cocción'), ('Refrigerador');
 
-INSERT INTO materiales (nombre) VALUES 
+INSERT INTO materials (nombre) VALUES 
 ('Acero Inoxidable'), ('Plástico (Vinilo/PVC)'), ('Cobre'), ('Vidrio');
