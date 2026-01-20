@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import usersRoutes from './routes/users.routes.js';
-import equiposRoutes from './routes/equipo.routes.js';
+import equiposRoutes from './routes/equipment.routes.js';
 import './db.js';
 import './config/firebase.js';
 

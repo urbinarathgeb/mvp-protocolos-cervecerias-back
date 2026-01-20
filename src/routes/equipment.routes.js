@@ -3,7 +3,7 @@ import {
   crearEquipo,
   getEquipo,
   getUserEquipos,
-} from '../controllers/equipo.controller.js';
+} from '../controllers/equipment.controller.js';
 import { verifyAuthToken } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
