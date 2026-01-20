@@ -3,10 +3,10 @@ import { pool } from '../db.js';
 export const getEquipo = async (req, res) => {
   try {
     const equipo = await pool.query(
-      'SELECT * FROM categorias_equipo ORDER BY nombre ASC'
+      'SELECT * FROM equipment ORDER BY nombre ASC',
     );
     const materiales = await pool.query(
-      'SELECT * FROM materiales ORDER BY nombre ASC'
+      'SELECT * FROM materials ORDER BY nombre ASC',
     );
     res.json({ equipo: equipo.rows, materiales: materiales.rows });
   } catch (error) {
@@ -37,7 +37,7 @@ export const crearEquipo = async (req, res) => {
 
   try {
     const query = `
-        INSERT INTO equipos 
+        INSERT INTO user_protocols 
         (user_id, codigo_interno, nombre_personalizado, categoria_id, material_id, volumen_litros, tiene_cip) 
         VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *
         `;
@@ -60,7 +60,7 @@ export const crearEquipo = async (req, res) => {
 
 export const getEquipos = async (req, res) => {
   try {
-    const equipos = await pool.query('SELECT * FROM equipos');
+    const equipos = await pool.query('SELECT * FROM user_protocols');
     res.json(equipos.rows);
   } catch (error) {
     console.error(error);
@@ -106,9 +106,9 @@ export const getUserEquipos = async (req, res) => {
         e.*, 
         c.nombre as categoria_nombre, 
         m.nombre as material_nombre 
-      FROM equipos e
-      LEFT JOIN categorias_equipo c ON e.categoria_id = c.id
-      LEFT JOIN materiales m ON e.material_id = m.id
+      FROM user_protocols e
+      LEFT JOIN equipment c ON e.categoria_id = c.id
+      LEFT JOIN materials m ON e.material_id = m.id
       WHERE e.user_id = $1 
       ORDER BY e.id DESC
     `;
