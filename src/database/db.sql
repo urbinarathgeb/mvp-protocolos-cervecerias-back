@@ -32,13 +32,13 @@ VALUES ('kqlXXM4a7YPorAarZj72N5k79pF2', 'user_3@mail.com', 'User 3', 'user');
 -- Tabla para el desplegable de Categorías
 CREATE TABLE equipment (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(50) UNIQUE NOT NULL
+    name VARCHAR(50) UNIQUE NOT NULL
 );
 
 -- Tabla para el desplegable de Materiales
 CREATE TABLE materials (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(50) UNIQUE NOT NULL
+    name VARCHAR(50) UNIQUE NOT NULL
 );
 
 -- 3. Tabla de Equipos (La que crece con el usuario)
@@ -54,8 +54,8 @@ CREATE TABLE user_protocols (
 );
 
 -- llenando las tablas de desplegable
-INSERT INTO equipment (nombre) VALUES 
-('Fermentador'), ('Molino'), ('Mangueras y tuberías'), ('Olla de cocción'), ('Refrigerador');
+INSERT INTO equipment (name) VALUES 
+('Fermentador'), ('Molino de cebada'), ('Olla de calentado de agua'), ('Olla de maceración'), ('Intercambiador de calor'), ('Sifón cervecero'), ('Mangueras y tuberías'), ('Barriles / Kegs'), ('Carbonatadores de cerveza'), ('Bombas de trasiego'), ('Filtros');
 
-INSERT INTO materials (nombre) VALUES 
-('Acero Inoxidable'), ('Plástico (Vinilo/PVC)'), ('Cobre'), ('Vidrio');
+INSERT INTO materials (name) VALUES 
+('Acero inoxidable'), ('Acero inoxidable 304'), ('Acero inoxidable 316'), ('Acero al carbono'), ('Acrílico'), ('Aluminio'), ('Carbón'), ('Cerámica (piedra difusora)'), ('Hierro fundido'), ('Papel / Celulosa'), ('Piedra'), ('Plástico (PP / PU / PE)'), ('PET'),('PVC grado alimentario'), ('Silicona grado alimentario');
