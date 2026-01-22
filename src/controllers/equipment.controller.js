@@ -1,14 +1,14 @@
 import { pool } from '../db.js';
 
-export const getEquipo = async (req, res) => {
+export const getEquipment = async (req, res) => {
   try {
-    const equipo = await pool.query(
-      'SELECT * FROM equipment ORDER BY nombre ASC',
+    const equipment = await pool.query(
+      'SELECT * FROM equipment ORDER BY name ASC',
     );
-    const materiales = await pool.query(
-      'SELECT * FROM materials ORDER BY nombre ASC',
+    const materials = await pool.query(
+      'SELECT * FROM materials ORDER BY name ASC',
     );
-    res.json({ equipo: equipo.rows, materiales: materiales.rows });
+    res.json({ equipment: equipment.rows, materials: materials.rows });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error al obtener los equipos' });
