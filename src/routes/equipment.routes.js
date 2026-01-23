@@ -2,13 +2,15 @@ import express from 'express';
 import {
   crearEquipo,
   getEquipment,
+  getMaterialsByEquipment,
   getUserEquipos,
 } from '../controllers/equipment.controller.js';
 import { verifyAuthToken } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 
-router.get('/api/equipo/', getEquipment);
+router.get('/api/equipments', getEquipment);
+router.get('/api/equipment/:id/materials', getMaterialsByEquipment);
 router.get('/api/mis-equipos', verifyAuthToken, getUserEquipos);
 router.post('/api/equipo/crear', verifyAuthToken, crearEquipo);
 

@@ -15,6 +15,25 @@ export const getEquipment = async (req, res) => {
   }
 };
 
+// Obtiene materiales asociados a un equipo específico usando la tabla intermedia
+export const getMaterialsByEquipment = async (req, res) => {
+  const { id } = req.params; // Recibimos el ID del equipo desde la URL
+  try {
+    const result = await pool.query(
+      `SELECT m.id, m.name 
+       FROM materials m
+       JOIN equipment_materials em ON m.id = em.material_id
+       WHERE em.equipment_id = $1
+       ORDER BY m.name ASC`,
+      [id],
+    );
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener materiales filtrados' });
+  }
+};
+
 export const crearEquipo = async (req, res) => {
   const {
     codigo_interno,
