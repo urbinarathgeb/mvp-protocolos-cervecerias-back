@@ -29,7 +29,7 @@ VALUES ('kqlXXM4a7YPorAarZj72N5k79pF2', 'user_3@mail.com', 'User 3', 'user');
 
 -- equipos
 
--- Tabla para el desplegable de Categorías
+-- Tabla para el desplegable de Equipos
 CREATE TABLE equipment (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) UNIQUE NOT NULL
@@ -41,12 +41,58 @@ CREATE TABLE materials (
     name VARCHAR(50) UNIQUE NOT NULL
 );
 
+-- Tabla para el desplegable de Tipos
+CREATE TABLE types (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+INSERT INTO types (name) VALUES 
+('Isobárico'), ('Atmosférico'), ('Rodillos'), ('Discos'), ('Martillos'), ('Piedra'), ('Serpentín'), ('Placas'), ('Manguera flexible'), ('Tubería rígida'), ('Cornelius (Corny)'), ('Sankey'), ('Europeo'), ('Tipo G'), ('Piedra difusora'), ('Carbonatador inline'), ('Tanque de carbonatación'), ('Cartucho'), ('Inoxidable'), ('Placas y marcos');
+
 -- Tabla intermedia para Equipos y Materiales que establece una relación many-to-many
 CREATE TABLE equipment_materials (
     equipment_id INT REFERENCES equipment(id) ON DELETE CASCADE,
     material_id INT REFERENCES materials(id) ON DELETE CASCADE,
     PRIMARY KEY (equipment_id, material_id)
 );
+
+-- Tabla intermedia para Equipos y Tipos que establece una relación many-to-many
+CREATE TABLE equipment_types (
+    equipment_id INT REFERENCES equipment(id) ON DELETE CASCADE,
+    type_id INT REFERENCES types(id) ON DELETE CASCADE,
+    PRIMARY KEY (equipment_id, type_id)
+);
+
+-- Fermentador
+INSERT INTO equipment_types (equipment_id, type_id) VALUES 
+(1, 1), (1, 2);
+
+--Molino de cebada
+INSERT INTO equipment_types (equipment_id, type_id) VALUES 
+(2, 3), (2, 4), (2, 5), (2, 6);
+
+--Intercambiador de calor
+INSERT INTO equipment_types (equipment_id, type_id) VALUES 
+(5, 7), (5, 8);
+
+--Mangueras y tuberías
+INSERT INTO equipment_types (equipment_id, type_id) VALUES 
+(7, 9), (7, 10);
+
+--Barriles / Kegs
+INSERT INTO equipment_types (equipment_id, type_id) VALUES 
+(8, 11), (8, 12), (8, 13), (8, 14);
+
+--Carbonatadores de cerveza
+INSERT INTO equipment_types (equipment_id, type_id) VALUES 
+(9, 15), (9, 16), (9, 17);
+
+--Filtros
+INSERT INTO equipment_types (equipment_id, type_id) VALUES 
+(11, 18), (11, 19), (11, 20);
+
+
 
 -- 3. Tabla de Equipos (La que crece con el usuario)
 CREATE TABLE user_protocols (

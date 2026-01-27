@@ -34,6 +34,25 @@ export const getMaterialsByEquipment = async (req, res) => {
   }
 };
 
+// Obtiene tipos asociados a un equipo específico usando la tabla intermedia
+export const getTypesByEquipment = async (req, res) => {
+  const { id } = req.params; // Recibimos el ID del equipo desde la URL
+  try {
+    const result = await pool.query(
+      `SELECT t.id, t.name 
+       FROM types t
+       JOIN equipment_types et ON t.id = et.type_id
+       WHERE et.equipment_id = $1
+       ORDER BY t.name ASC`,
+      [id],
+    );
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener tipos filtrados' });
+  }
+};
+
 export const crearEquipo = async (req, res) => {
   const {
     codigo_interno,
