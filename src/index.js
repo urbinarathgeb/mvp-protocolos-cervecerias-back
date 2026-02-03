@@ -3,7 +3,8 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import usersRoutes from './routes/users.routes.js';
-import equiposRoutes from './routes/equipment.routes.js';
+import equipmentRoutes from './routes/equipment.routes.js';
+import protocolRoutes from './routes/protocol.routes.js';
 import './db.js';
 import './config/firebase.js';
 
@@ -25,7 +26,8 @@ app.use(cors(corsOptions));
 
 // --- RUTAS ---
 app.use(usersRoutes);
-app.use(equiposRoutes);
+app.use(equipmentRoutes);
+app.use(protocolRoutes);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
