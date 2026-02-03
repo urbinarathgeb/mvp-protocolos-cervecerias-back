@@ -94,16 +94,16 @@ INSERT INTO equipment_types (equipment_id, type_id) VALUES
 
 
 
--- 3. Tabla de Equipos (La que crece con el usuario)
+-- 3. Tabla de Protocolos (La que crece con el usuario)
 CREATE TABLE user_protocols (
     id SERIAL PRIMARY KEY,
-    user_id VARCHAR(128) REFERENCES users(firebase_uid),
-    codigo_interno VARCHAR(20) NOT NULL, -- El identificador único (Ej: FERM-01)
-    nombre_personalizado VARCHAR(100),   -- El nombre que el usuario quiera
-    categoria_id INT REFERENCES equipment(id),
-    material_id INT REFERENCES materials(id),
-    volumen_litros FLOAT NOT NULL,       -- El número manual que el usuario ingresa
-    tiene_cip BOOLEAN DEFAULT FALSE      -- Si tiene o no sistema de limpieza CIP
+    user_id VARCHAR(128) REFERENCES users(firebase_uid) ON DELETE CASCADE,
+    equipment_id INT REFERENCES equipment(id) ON DELETE CASCADE,
+    type_id INT REFERENCES types(id) ON DELETE SET NULL,
+    material_id INT REFERENCES materials(id) ON DELETE CASCADE,
+    protocol_code VARCHAR(100) UNIQUE NOT NULL,
+    volume_liters FLOAT NOT NULL,
+    has_cip BOOLEAN DEFAULT FALSE
 );
 
 -- llenando las tablas de desplegable
