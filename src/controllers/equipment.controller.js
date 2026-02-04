@@ -53,48 +53,49 @@ export const getTypesByEquipment = async (req, res) => {
   }
 };
 
-export const crearEquipo = async (req, res) => {
-  const {
-    codigo_interno,
-    nombre_personalizado,
-    categoria_id,
-    material_id,
-    volumen_litros,
-    tiene_cip,
-  } = req.body;
+// BORRAR UNA VEZ QUE ESTÉ PROBADA LA NUEVA FUNCION createProtocol EN protocol.controller.js
+// export const crearEquipo = async (req, res) => {
+//   const {
+//     codigo_interno,
+//     nombre_personalizado,
+//     categoria_id,
+//     material_id,
+//     volumen_litros,
+//     tiene_cip,
+//   } = req.body;
 
-  // Obtenemos el FIREBASE UID del usuario autenticado (del token)
-  // IMPORTANTE: La base de datos fue modificada por el usuario para usar firebase_uid en la tabla equipos.
-  const user_uid = req.user ? req.user.firebase_uid : null;
+//   // Obtenemos el FIREBASE UID del usuario autenticado (del token)
+//   // IMPORTANTE: La base de datos fue modificada por el usuario para usar firebase_uid en la tabla equipos.
+//   const user_uid = req.user ? req.user.firebase_uid : null;
 
-  if (!user_uid) {
-    return res
-      .status(401)
-      .json({ error: 'Debes estar autenticado para crear un equipo.' });
-  }
+//   if (!user_uid) {
+//     return res
+//       .status(401)
+//       .json({ error: 'Debes estar autenticado para crear un equipo.' });
+//   }
 
-  try {
-    const query = `
-        INSERT INTO user_protocols 
-        (user_id, codigo_interno, nombre_personalizado, categoria_id, material_id, volumen_litros, tiene_cip) 
-        VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *
-        `;
-    const values = [
-      user_uid,
-      codigo_interno,
-      nombre_personalizado,
-      categoria_id,
-      material_id,
-      volumen_litros,
-      tiene_cip,
-    ];
-    const result = await pool.query(query, values);
-    res.status(201).json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Error al crear el equipo' });
-  }
-};
+//   try {
+//     const query = `
+//         INSERT INTO user_protocols
+//         (user_id, codigo_interno, nombre_personalizado, categoria_id, material_id, volumen_litros, tiene_cip)
+//         VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *
+//         `;
+//     const values = [
+//       user_uid,
+//       codigo_interno,
+//       nombre_personalizado,
+//       categoria_id,
+//       material_id,
+//       volumen_litros,
+//       tiene_cip,
+//     ];
+//     const result = await pool.query(query, values);
+//     res.status(201).json(result.rows[0]);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: 'Error al crear el equipo' });
+//   }
+// };
 
 export const getEquipos = async (req, res) => {
   try {
