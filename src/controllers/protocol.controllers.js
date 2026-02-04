@@ -30,6 +30,50 @@ export const getProtocolSteps = async (req, res) => {
   }
 };
 
+export const getUserProtocols = async (req, res) => {
+  try {
+    // El middleware authentication (verifyAuthToken) ya validó el token
+    // y populó req.user con { id, firebase_uid, role, name, email } de la BD local.
+    // Usamos firebase_uid porque el usuario actualizó su esquema de BD.
+    const user_uid = req.user ? req.user.firebase_uid : null;
+
+    if (!user_uid) {
+      console.warn('getUserProtocols: No firebase_uid found in req.user');
+      return res
+        .status(401)
+        .json({ error: 'Usuario no identificado correctamente' });
+    }
+
+    console.log('Fetching user protocols for user_uid:', user_uid);
+
+    // Hacemos JOINs para devolver los nombres de categoría y material.
+    const query = `
+      SELECT 
+        p.*, 
+        e.name as equipment_name, 
+        m.name as material_name,
+        t.name as type_name
+      FROM user_protocols p
+      LEFT JOIN equipment e ON p.equipment_id = e.id
+      LEFT JOIN materials m ON p.material_id = m.id
+      LEFT JOIN types t ON p.type_id = t.id
+      WHERE p.user_id = $1 
+      ORDER BY p.id DESC
+    `;
+
+    // Pasamos user_uid (string) en lugar del ID numérico
+    const result = await pool.query(query, [user_uid]);
+    console.log('Query result row count:', result.rows.length);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('CRITICAL Error en getUserEquipos:', error);
+    res.status(500).json({
+      error: 'Error al obtener los equipos del usuario',
+      details: error.message,
+    });
+  }
+};
+
 export const createProtocol = async (req, res) => {
   const { equipment_id, type_id, material_id, volume_liters, has_cip } =
     req.body;
