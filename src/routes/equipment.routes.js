@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-  crearEquipo,
+  // crearEquipo,
   getEquipment,
   getMaterialsByEquipment,
   getTypesByEquipment,
