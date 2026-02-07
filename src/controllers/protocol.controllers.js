@@ -52,11 +52,13 @@ export const getUserProtocols = async (req, res) => {
         p.*, 
         e.name as equipment_name, 
         m.name as material_name,
-        t.name as type_name
+        t.name as type_name,
+        u.brewery_name
       FROM user_protocols p
       LEFT JOIN equipment e ON p.equipment_id = e.id
       LEFT JOIN materials m ON p.material_id = m.id
       LEFT JOIN types t ON p.type_id = t.id
+      LEFT JOIN users u ON p.user_id = u.firebase_uid
       WHERE p.user_id = $1 
       ORDER BY p.id DESC
     `;
