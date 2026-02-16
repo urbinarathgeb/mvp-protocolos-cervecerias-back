@@ -53,7 +53,8 @@ export const getUserProtocols = async (req, res) => {
         e.name as equipment_name, 
         m.name as material_name,
         t.name as type_name,
-        u.brewery_name
+        u.brewery_name,
+        p.detergent_concentration
       FROM user_protocols p
       LEFT JOIN equipment e ON p.equipment_id = e.id
       LEFT JOIN materials m ON p.material_id = m.id
@@ -84,6 +85,7 @@ export const createProtocol = async (req, res) => {
     volume_liters,
     has_cip,
     user_id,
+    concentration,
   } = req.body;
 
   // Obtenemos el FIREBASE UID del usuario autenticado (del token)
@@ -121,8 +123,8 @@ export const createProtocol = async (req, res) => {
     const final_vol = parseFloat(volume_liters);
 
     const query = `INSERT INTO user_protocols
-    (user_id, equipment_id, type_id, material_id, protocol_code, volume_liters, has_cip)
-    VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
+    (user_id, equipment_id, type_id, material_id, protocol_code, volume_liters, has_cip, detergent_concentration)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`;
 
     const values = [
       user_uid,
@@ -132,6 +134,7 @@ export const createProtocol = async (req, res) => {
       protocol_code,
       final_vol,
       has_cip,
+      concentration,
     ];
     const result = await pool.query(query, values);
     res.status(201).json(result.rows[0]);
