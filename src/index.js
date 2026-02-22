@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import usersRoutes from './routes/users.routes.js';
 import equipmentRoutes from './routes/equipment.routes.js';
 import protocolRoutes from './routes/protocol.routes.js';
+import ticketsRoutes from './routes/tickets.routes.js';
 import './db.js';
 import './config/firebase.js';
 
@@ -28,6 +29,7 @@ app.use(cors(corsOptions));
 app.use(usersRoutes);
 app.use(equipmentRoutes);
 app.use(protocolRoutes);
+app.use(ticketsRoutes);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
