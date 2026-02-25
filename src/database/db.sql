@@ -1,29 +1,29 @@
 -- users
 
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY NOT NULL UNIQUE, 
-    firebase_uid VARCHAR(128) NOT NULL UNIQUE, 
-    brewery_name VARCHAR(100) NOT NULL, 
-    brewery_email VARCHAR(100) NOT NULL UNIQUE, 
+    id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+    firebase_uid VARCHAR(128) NOT NULL UNIQUE,
+    brewery_name VARCHAR(100) NOT NULL,
+    brewery_email VARCHAR(100) NOT NULL UNIQUE,
     address VARCHAR(255),
     commune VARCHAR(100),
     phone_number VARCHAR(20),
     website VARCHAR(255),
-    role VARCHAR(10) NOT NULL DEFAULT 'user', 
+    role VARCHAR(10) NOT NULL DEFAULT 'user',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     );
 
-INSERT INTO users (firebase_uid, email, name, role) 
+INSERT INTO users (firebase_uid, email, name, role)
 VALUES ('admin_dev_uid_12345', 'admin@mail.com', 'Admin', 'admin');
 
-INSERT INTO users (firebase_uid, email, name, role) 
+INSERT INTO users (firebase_uid, email, name, role)
 VALUES ('user_dev_uid_12345', 'user@mail.com', 'User Cervecero', 'user');
 
-INSERT INTO users (firebase_uid, email, name, role) 
+INSERT INTO users (firebase_uid, email, name, role)
 VALUES ('D9EOG4uUJFUej5hnKMVOKHzciQB2', 'user_2@mail.com', 'User 2', 'user');
 
 
-INSERT INTO users (firebase_uid, email, name, role) 
+INSERT INTO users (firebase_uid, email, name, role)
 VALUES ('kqlXXM4a7YPorAarZj72N5k79pF2', 'user_3@mail.com', 'User 3', 'user');
 
 
@@ -47,7 +47,7 @@ CREATE TABLE types (
     name VARCHAR(50) UNIQUE NOT NULL
 );
 
-INSERT INTO types (name) VALUES 
+INSERT INTO types (name) VALUES
 ('Isobárico'), ('Atmosférico'), ('Rodillos'), ('Discos'), ('Martillos'), ('Piedra'), ('Serpentín'), ('Placas'), ('Manguera flexible'), ('Tubería rígida'), ('Cornelius (Corny)'), ('Sankey'), ('Europeo'), ('Tipo G'), ('Piedra difusora'), ('Carbonatador inline'), ('Tanque de carbonatación'), ('Cartucho'), ('Inoxidable'), ('Placas y marcos');
 
 -- Tabla intermedia para Equipos y Materiales que establece una relación many-to-many
@@ -60,16 +60,16 @@ CREATE TABLE equipment_materials (
 -- FECHA 14-02
 -- SEE AGREGA COLUMNA CONCENTRACIÓN PARA EL DETERGENTE, YA QUE AHORA 2%
 --NO ES UN ESTÁNDAR Y DEPENDE DEL EQUIPO Y MATERIAL.
-ALTER TABLE equipment_materials 
+ALTER TABLE equipment_materials
 ADD COLUMN concentration DECIMAL(4,3) DEFAULT 0.020;
 
 
 -- Fermentador
-INSERT INTO equipment_materials (equipment_id, material_id) VALUES 
+INSERT INTO equipment_materials (equipment_id, material_id) VALUES
 (1, 2), (1, 3), (1, 12), (1,13);
 
 -- Molino de cebada
-INSERT INTO equipment_materials (equipment_id, material_id) VALUES 
+INSERT INTO equipment_materials (equipment_id, material_id) VALUES
 (2, 4), (2, 2), (2, 6), (2,9), (2, 11);
 
 -- Olla de calentado de agua
@@ -95,7 +95,7 @@ INSERT INTO equipment_materials (equipment_id, material_id) VALUES
 -- Barriles / Kegs
 INSERT INTO equipment_materials (equipment_id, material_id) VALUES
  (8,1), (8,6);
- 
+
 -- Carbonatadores de cerveza
 INSERT INTO equipment_materials (equipment_id, material_id) VALUES
  (9,2), (9,3), (9, 8);
@@ -120,31 +120,31 @@ CREATE TABLE equipment_types (
 );
 
 -- Fermentador
-INSERT INTO equipment_types (equipment_id, type_id) VALUES 
+INSERT INTO equipment_types (equipment_id, type_id) VALUES
 (1, 1), (1, 2);
 
 --Molino de cebada
-INSERT INTO equipment_types (equipment_id, type_id) VALUES 
+INSERT INTO equipment_types (equipment_id, type_id) VALUES
 (2, 3), (2, 4), (2, 5), (2, 6);
 
 --Intercambiador de calor
-INSERT INTO equipment_types (equipment_id, type_id) VALUES 
+INSERT INTO equipment_types (equipment_id, type_id) VALUES
 (5, 7), (5, 8);
 
 --Mangueras y tuberías
-INSERT INTO equipment_types (equipment_id, type_id) VALUES 
+INSERT INTO equipment_types (equipment_id, type_id) VALUES
 (7, 9), (7, 10);
 
 --Barriles / Kegs
-INSERT INTO equipment_types (equipment_id, type_id) VALUES 
+INSERT INTO equipment_types (equipment_id, type_id) VALUES
 (8, 11), (8, 12), (8, 13), (8, 14);
 
 --Carbonatadores de cerveza
-INSERT INTO equipment_types (equipment_id, type_id) VALUES 
+INSERT INTO equipment_types (equipment_id, type_id) VALUES
 (9, 15), (9, 16), (9, 17);
 
 --Filtros
-INSERT INTO equipment_types (equipment_id, type_id) VALUES 
+INSERT INTO equipment_types (equipment_id, type_id) VALUES
 (11, 18), (11, 19), (11, 20);
 
 
@@ -156,16 +156,18 @@ CREATE TABLE user_protocols (
     equipment_id INT REFERENCES equipment(id) ON DELETE CASCADE,
     type_id INT REFERENCES types(id) ON DELETE SET NULL,
     material_id INT REFERENCES materials(id) ON DELETE CASCADE,
-    protocol_code VARCHAR(100) UNIQUE NOT NULL,
+    protocol_code VARCHAR(100) NOT NULL,
     volume_liters FLOAT NOT NULL,
-    has_cip BOOLEAN DEFAULT FALSE
+    has_cip BOOLEAN DEFAULT FALSE,
+    detergent_concentration FLOAT DEFAULT 0,
+    UNIQUE (user_id, protocol_code)
 );
 
 -- llenando las tablas de desplegable
-INSERT INTO equipment (name) VALUES 
+INSERT INTO equipment (name) VALUES
 ('Fermentador'), ('Molino de cebada'), ('Olla de calentado de agua'), ('Olla de maceración'), ('Intercambiador de calor'), ('Sifón cervecero'), ('Mangueras y tuberías'), ('Barriles / Kegs'), ('Carbonatadores de cerveza'), ('Bombas de trasiego'), ('Filtros'), ('Airlock');
 
-INSERT INTO materials (name) VALUES 
+INSERT INTO materials (name) VALUES
 ('Acero inoxidable'), ('Acero inoxidable 304'), ('Acero inoxidable 316'), ('Acero al carbono'), ('Acrílico'), ('Aluminio'), ('Carbón'), ('Cerámica (piedra difusora)'), ('Hierro fundido'), ('Papel / Celulosa'), ('Piedra'), ('Plástico (PP / PU / PE)'), ('PET'),('PVC grado alimentario'), ('Silicona grado alimentario'), ('Plástico alimentario'), ('Vidrio');
 
 
@@ -177,7 +179,7 @@ CREATE TABLE protocol_steps (
     equipment_id INT REFERENCES equipment(id) ON DELETE CASCADE,
     material_id INT REFERENCES materials(id) ON DELETE CASCADE,
     step_number INT NOT NULL, -- 0, 1, 2...
-    step_name VARCHAR(100) NOT NULL, 
+    step_name VARCHAR(100) NOT NULL,
     description TEXT NOT NULL,
     requires_cip BOOLEAN DEFAULT NULL -- TRUE: solo con CIP, FALSE: solo Manual, NULL: Ambos
 );
@@ -192,14 +194,14 @@ CREATE INDEX idx_protocol_material ON protocol_steps(material_id);
 -- ==========================================
 
 -- PASOS QUE SON IGUALES (CON Y SIN CIP)
-INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES 
+INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (1, 2, 0, 'Preparación del detergente', 'En caso de que utilices ALKLEAN, se recomienda una concentración aproximada del 2%. La preparación de este detergente se realiza agregando {{cantidad}} Kg de detergente para {{volumen}} litros de agua.', NULL),
 (1, 2, 5, 'Desinfección', 'ALKLEAN POWER actúa como desinfectante de amplio espectro y esterilizante químico en frío gracias a su alto poder oxidante.', NULL),
 (1, 2, 6, 'Enjuague final', 'Enjuaga el tanque con agua fría para eliminar los residuos de la solución cáustica y prevenir contaminaciones.', NULL);
 
 
 -- PASOS QUE CAMBIAN SI TIENE CIP (TRUE)
-INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES 
+INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (1, 2, 1, 'Inicio de la limpieza', 'Drena cualquier resto de cerveza o sedimento de levadura del tanque y enjuaga el interior con agua tibia para eliminar residuos sueltos.', TRUE),
 (1, 2, 2, 'Enjuague primario', 'Enjuaga el tanque con agua tibia a través del sistema CIP para eliminar partículas restantes y preparar el tanque para la limpieza.', TRUE),
 (1, 2, 3, 'Lavado alcalino', 'Añade el detergente de limpieza ALKLEAN al sistema CIP y recircula la solución por el sistema CIP durante 30 minutos a una temperatura aproximada de 40-50°C. Asegúrate de que entre en contacto con todas las superficies interiores para descomponer los residuos orgánicos.', TRUE),
@@ -209,7 +211,7 @@ queden residuos y cierra todas las conexiones del tanque de forma segura
 para prepararlo para el siguiente lote.', TRUE);
 
 -- PASOS QUE CAMBIAN SI NO TIENE CIP (FALSE)
-INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES 
+INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (1, 2, 1, 'Inicio de la limpieza', 'Retira válvulas, empaques (gomas/elastómeros) y accesorios. El producto es seguro para estos materiales.', FALSE),
 (1, 2, 2, 'Enjuague primario', 'Enjuaga el equipo con agua a presión para eliminar residuos de levadura, lúpulo o azúcares.', FALSE),
 (1, 2, 3, 'Lavado alcalino', 'Aplica la solución con un cepillo de cerdas suaves o paño, asegurando que todas las paredes internas queden cubiertas. Para zonas con incrustaciones difíciles, deja actuar la solución por 30 minutos antes de frotar. Si el equipo es pequeño, la inmersión total es la técnica más efectiva para asegurar que el desinfectante llegue a cada rincón.', FALSE),
@@ -223,14 +225,14 @@ INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, d
 -- ==========================================
 
 -- PASOS QUE SON IGUALES (CON Y SIN CIP)
-INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES 
+INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (1, 3, 0, 'Preparación del detergente', 'En caso de que utilices ALKLEAN, se recomienda una concentración aproximada del 2%. La preparación de este detergente se realiza agregando {{cantidad}} Kg de detergente para {{volumen}} litros de agua.', NULL),
 (1, 3, 5, 'Desinfección', 'ALKLEAN POWER actúa como desinfectante de amplio espectro y esterilizante químico en frío gracias a su alto poder oxidante.', NULL),
 (1, 3, 6, 'Enjuague final', 'Enjuaga el tanque con agua fría para eliminar los residuos de la solución cáustica y prevenir contaminaciones.', NULL);
 
 
 -- PASOS QUE CAMBIAN SI TIENE CIP (TRUE)
-INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES 
+INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (1, 3, 1, 'Inicio de la limpieza', 'Drena cualquier resto de cerveza o sedimento de levadura del tanque y enjuaga el interior con agua tibia para eliminar residuos sueltos.', TRUE),
 (1, 3, 2, 'Enjuague primario', 'Enjuaga el tanque con agua tibia a través del sistema CIP para eliminar partículas restantes y preparar el tanque para la limpieza.', TRUE),
 (1, 3, 3, 'Lavado alcalino', 'Añade el detergente de limpieza ALKLEAN al sistema CIP y recircula la solución por el sistema CIP durante 30 minutos a una temperatura aproximada de 40-50°C. Asegúrate de que entre en contacto con todas las superficies interiores para descomponer los residuos orgánicos.', TRUE),
@@ -240,7 +242,7 @@ queden residuos y cierra todas las conexiones del tanque de forma segura
 para prepararlo para el siguiente lote.', TRUE);
 
 -- PASOS QUE CAMBIAN SI NO TIENE CIP (FALSE)
-INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES 
+INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (1, 3, 1, 'Inicio de la limpieza', 'Retira válvulas, empaques (gomas/elastómeros) y accesorios. El producto es seguro para estos materiales.', FALSE),
 (1, 3, 2, 'Enjuague primario', 'Enjuaga el equipo con agua a presión para eliminar residuos de levadura, lúpulo o azúcares.', FALSE),
 (1, 3, 3, 'Lavado alcalino', 'Aplica la solución con un cepillo de cerdas suaves o paño, asegurando que todas las paredes internas queden cubiertas. Para zonas con incrustaciones difíciles, deja actuar la solución por 30 minutos antes de frotar. Si el equipo es pequeño, la inmersión total es la técnica más efectiva para asegurar que el desinfectante llegue a cada rincón.', FALSE),

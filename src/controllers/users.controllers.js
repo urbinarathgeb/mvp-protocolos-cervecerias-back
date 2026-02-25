@@ -10,7 +10,7 @@ export const getUserData = (req, res) => {
     role,
     brewery_email,
     address,
-    comune,
+    commune,
     phone_number,
     website,
   } = req.user;
@@ -22,7 +22,7 @@ export const getUserData = (req, res) => {
     role,
     brewery_email,
     address,
-    comune,
+    commune,
     phone_number,
     website,
   });
@@ -50,7 +50,7 @@ export const createUser = async (req, res) => {
     website,
   } = req.body;
 
-  if (
+    if (
     !brewery_email ||
     !password ||
     !brewery_name ||
@@ -157,7 +157,18 @@ export const updateUser = async (req, res) => {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
 
-    res.json({ message: `Usuario ${id} actualizado`, user: result.rows[0] });
+    const updatedUser = result.rows[0];
+
+    // 2. Sincronizar con Firebase si el email o el nombre cambiaron
+    const updateData = {};
+    if (brewery_email) updateData.email = brewery_email;
+    if (brewery_name) updateData.displayName = brewery_name;
+
+    if (Object.keys(updateData).length > 0) {
+      await admin.auth().updateUser(updatedUser.firebase_uid, updateData);
+    }
+
+    res.json({ message: `Usuario ${id} actualizado`, user: updatedUser });
   } catch (error) {
     console.error('Error al actualizar usuario:', error);
     res.status(500).json({ message: 'Error interno del servidor' });
