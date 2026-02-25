@@ -89,14 +89,39 @@ export const createProtocol = async (req, res) => {
   } = req.body;
 
   // Obtenemos el FIREBASE UID del usuario autenticado (del token)
-  // IMPORTANTE: La base de datos fue modificada por el usuario para usar firebase_uid en la tabla equipos.
-  const user_uid = req.user?.firebase_uid || user_id;
+  // IMPORTANTE: La base de datos usa firebase_uid para asociar protocolos.
+  let user_uid = req.user?.firebase_uid;
+
+  // Si no viene en req.user (ej: test o fallback), intentamos usar el del body
+  // Pero verificamos si el user_id proporcionado es un ID numérico de DB o un UID de Firebase
+  if (!user_uid && user_id) {
+    if (isNaN(user_id)) {
+      user_uid = user_id;
+    } else {
+      // Si es un número, buscamos su firebase_uid en la DB
+      try {
+        const userRes = await pool.query(
+          'SELECT firebase_uid FROM users WHERE id = $1',
+          [user_id],
+        );
+        if (userRes.rows.length > 0) {
+          user_uid = userRes.rows[0].firebase_uid;
+        }
+      } catch (err) {
+        console.error('Error buscando firebase_uid:', err);
+      }
+    }
+  }
 
   if (!user_uid) {
     return res.status(401).json({ error: 'Usuario no identificado.' });
   }
 
   try {
+    console.log('--- Creating Protocol ---');
+    console.log('Payload:', req.body);
+    console.log('User UID:', user_uid);
+
     // 1. Obtener el nombre del equipo para el prefijo (ej: "FERMENTADOR" -> "FER")
     const eqResult = await pool.query(
       `SELECT name FROM equipment WHERE id = $1`,
@@ -104,23 +129,45 @@ export const createProtocol = async (req, res) => {
     );
 
     if (eqResult.rows.length === 0) {
+      console.warn('Equipment not found:', equipment_id);
       return res.status(404).json({ error: 'Equipo base no encontrado.' });
     }
     const prefix = eqResult.rows[0].name.substring(0, 3).toUpperCase();
 
-    //2. Contamos cuántos protocolos tiene el usuario para ese equipo
-    const countResult = await pool.query(
-      `SELECT COUNT(*) FROM user_protocols WHERE user_id = $1 AND equipment_id = $2`,
+    //2. Contamos cuántos protocolos tiene el usuario para ese equipo para generar el código
+    // Se usa MAX o COUNT, pero para que sea amigable se usará el siguiente número disponible
+    const lastResult = await pool.query(
+      `SELECT protocol_code FROM user_protocols WHERE user_id = $1 AND equipment_id = $2 ORDER BY id DESC LIMIT 1`,
       [user_uid, equipment_id],
     );
 
-    const nextNumber = parseInt(countResult.rows[0].count) + 1;
+    let nextNumber = 1;
+    if (lastResult.rows.length > 0) {
+      const lastCode = lastResult.rows[0].protocol_code;
+      const parts = lastCode.split('-');
+      if (parts.length > 1) {
+        nextNumber = parseInt(parts[1]) + 1;
+      }
+    }
     const protocol_code = `${prefix}-${nextNumber.toString().padStart(3, '0')}`;
 
-    const final_type_id = type_id ? parseInt(type_id) : null;
+    const final_type_id =
+      type_id && type_id !== '' ? parseInt(type_id) : null;
     const final_eq_id = parseInt(equipment_id);
     const final_mat_id = parseInt(material_id);
-    const final_vol = parseFloat(volume_liters);
+    const final_vol = parseFloat(volume_liters) || 0;
+    const final_concentration = parseFloat(concentration) || 0;
+
+    console.log('Final values:', {
+      user_uid,
+      final_eq_id,
+      final_type_id,
+      final_mat_id,
+      protocol_code,
+      final_vol,
+      has_cip,
+      final_concentration,
+    });
 
     const query = `INSERT INTO user_protocols
     (user_id, equipment_id, type_id, material_id, protocol_code, volume_liters, has_cip, detergent_concentration)
@@ -134,12 +181,13 @@ export const createProtocol = async (req, res) => {
       protocol_code,
       final_vol,
       has_cip,
-      concentration,
+      final_concentration,
     ];
     const result = await pool.query(query, values);
+    console.log('Protocol created successfully:', result.rows[0].id);
     res.status(201).json(result.rows[0]);
   } catch (error) {
-    console.error('Error detallado:', error.message);
+    console.error('Error detallado:', error);
     res.status(500).json({
       error: 'Error al crear el protocolo',
       detail: error.message,
