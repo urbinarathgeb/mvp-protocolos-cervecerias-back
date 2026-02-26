@@ -1,4 +1,4 @@
-import { admin } from '../config/firebase.js';
+import  admin  from '../config/firebase.js';
 import { pool } from '../db.js';
 
 // Nota: Gracias al middleware, req.user ya contiene los datos de PostgreSQL.
