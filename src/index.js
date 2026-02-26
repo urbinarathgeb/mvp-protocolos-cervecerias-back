@@ -9,7 +9,7 @@ import ticketsRoutes from './routes/tickets.routes.js';
 import './db.js';
 import './config/firebase.js';
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.NODE_PORT || 3000;
 
 const app = express();
 
