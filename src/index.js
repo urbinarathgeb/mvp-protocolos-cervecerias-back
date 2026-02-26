@@ -18,10 +18,11 @@ app.use(express.json()); // 2. Procesamiento de req.body (JSON)
 
 const corsOptions = {
   // Permitir SOLO el origen de tu frontend (Vite/React)
-  origin: 'http://localhost:5173',
+  origin: ['https://mvp-protocolos-cervecerias-front.vercel.app','http://localhost:5173'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, // Permite que se envíen cookies y headers de autorización
 };
+
 
 app.use(cors(corsOptions));
 
