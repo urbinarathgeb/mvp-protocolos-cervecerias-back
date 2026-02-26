@@ -1,10 +1,11 @@
-import { admin } from '../config/firebase.js';
+import  admin  from '../config/firebase.js';
 import { pool } from '../db.js';
 
 // Middleware que verifica el token y establece el usuario en req.user
 export const verifyAuthToken = async (req, res, next) => {
   // 1. Obtener el Token: El token se envía en el header 'Authorization'
   const idToken = req.headers.authorization?.split('Bearer ')[1];
+
 
   if (!idToken) {
     return res
@@ -16,6 +17,7 @@ export const verifyAuthToken = async (req, res, next) => {
     // 2. Verificar el Token con Firebase Admin SDK
     const decodedToken = await admin.auth().verifyIdToken(idToken);
     const firebase_uid = decodedToken.uid;
+    console.log("DEBUG: UID de Firebase decodificado ->", firebase_uid);
     // 3. Obtener el Rol del Usuario desde PostgreSQL
     const queryText =
       'SELECT id, firebase_uid, role, brewery_name, brewery_email, address, commune, phone_number, website FROM users WHERE firebase_uid = $1;';
