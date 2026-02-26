@@ -13,8 +13,6 @@ const PORT = process.env.NODE_PORT || 3000;
 
 const app = express();
 
-// --- MIDDLEWARES GLOBALES ---
-app.use(express.json()); // 2. Procesamiento de req.body (JSON)
 
 const corsOptions = {
   // Permitir SOLO el origen de tu frontend (Vite/React)
@@ -25,6 +23,9 @@ const corsOptions = {
 
 
 app.use(cors(corsOptions));
+// --- MIDDLEWARES GLOBALES ---
+app.use(express.json()); // 2. Procesamiento de req.body (JSON)
+
 
 // --- RUTAS ---
 app.use(usersRoutes);
