@@ -21,13 +21,19 @@ if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
   console.error("❌ ERROR: La variable FIREBASE_SERVICE_ACCOUNT no está definida en Railway");
 }
 
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+try {
+  const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-  });
-  console.log("✅ Firebase Admin SDK inicializado correctamente");
+  // ESTO ARREGLA EL ERROR DE PEM: Reemplaza los escapes de saltos de línea
+  serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+
+  if (!admin.apps.length) {
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount)
+    });
+    console.log("✅ Firebase Admin SDK inicializado correctamente");
+  }
+} catch (error) {
+  console.error("❌ Error crítico al inicializar Firebase:", error.message);
 }
-
 export default admin;
