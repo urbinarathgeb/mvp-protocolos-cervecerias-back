@@ -15,8 +15,20 @@ const app = express();
 
 
 const corsOptions = {
-  // Permitir SOLO el origen de tu frontend (Vite/React)
-  origin: ['https://mvp-protocolos-cervecerias-front.vercel.app','http://localhost:5173'],
+  // Permitir el origen principal, localhost y despliegues de Vercel (incluyendo preview)
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      'https://mvp-protocolos-cervecerias-front.vercel.app',
+      'http://localhost:5173'
+    ];
+    
+    // Si no hay origen (como en peticiones de servidor a servidor o herramientas como Postman) o está en la lista blanca
+    if (!origin || allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, // Permite que se envíen cookies y headers de autorización
 };

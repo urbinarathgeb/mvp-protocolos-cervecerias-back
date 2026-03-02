@@ -1,17 +1,18 @@
 -- users
 
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY NOT NULL UNIQUE,
-    firebase_uid VARCHAR(128) NOT NULL UNIQUE,
-    brewery_name VARCHAR(100) NOT NULL,
-    brewery_email VARCHAR(100) NOT NULL UNIQUE,
-    address VARCHAR(255),
-    commune VARCHAR(100),
-    phone_number VARCHAR(20),
-    website VARCHAR(255),
-    role VARCHAR(10) NOT NULL DEFAULT 'user',
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-    );
+CREATE TABLE users
+(
+    id            SERIAL PRIMARY KEY NOT NULL UNIQUE,
+    firebase_uid  VARCHAR(128)       NOT NULL UNIQUE,
+    brewery_name  VARCHAR(100)       NOT NULL,
+    brewery_email VARCHAR(100)       NOT NULL UNIQUE,
+    address       VARCHAR(255),
+    commune       VARCHAR(100),
+    phone_number  VARCHAR(20),
+    website       VARCHAR(255),
+    role          VARCHAR(10)        NOT NULL DEFAULT 'user',
+    created_at    TIMESTAMP WITH TIME ZONE    DEFAULT CURRENT_TIMESTAMP
+);
 
 INSERT INTO users (firebase_uid, email, name, role)
 VALUES ('admin_dev_uid_12345', 'admin@mail.com', 'Admin', 'admin');
@@ -212,9 +213,11 @@ para prepararlo para el siguiente lote.', TRUE);
 
 -- PASOS QUE CAMBIAN SI NO TIENE CIP (FALSE)
 INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
-(1, 2, 1, 'Inicio de la limpieza', 'Retira válvulas, empaques (gomas/elastómeros) y accesorios. El producto es seguro para estos materiales.', FALSE),
+(1, 2, 1, 'Inicio de la limpieza', 'Retira válvulas, empaques(gomas / elastómeros) y accesorios. El producto es seguro para estos materiales.', FALSE),
 (1, 2, 2, 'Enjuague primario', 'Enjuaga el equipo con agua a presión para eliminar residuos de levadura, lúpulo o azúcares.', FALSE),
-(1, 2, 3, 'Lavado alcalino', 'Aplica la solución con un cepillo de cerdas suaves o paño, asegurando que todas las paredes internas queden cubiertas. Para zonas con incrustaciones difíciles, deja actuar la solución por 30 minutos antes de frotar. Si el equipo es pequeño, la inmersión total es la técnica más efectiva para asegurar que el desinfectante llegue a cada rincón.', FALSE),
+(1, 2, 3, 'Lavado alcalino', 'Aplica la solución con un cepillo de cerdas suaves o paño,
+        asegurando que todas las paredes internas queden cubiertas. Para zonas con incrustaciones difíciles,
+        deja actuar la solución por 30 minutos antes de frotar. Si el equipo es pequeño, la inmersión total es la técnica más efectiva para asegurar que el desinfectante llegue a cada rincón.', FALSE),
 (1, 2, 4, 'Enjuague secundario', 'Enjuaga con abundante agua limpia. Controla con tiras de pH hasta que el agua de salida marque un pH neutro (entre 7 y 8) para asegurar que no hay residuos del detergente.', FALSE),
 (1, 2, 7, 'Inspección', 'Inspecciona el interior del tanque para verificar que no queden residuos y deja secar al aire en un ambiente limpio o ensambla y mantén cerrado.', FALSE);
 
@@ -243,9 +246,11 @@ para prepararlo para el siguiente lote.', TRUE);
 
 -- PASOS QUE CAMBIAN SI NO TIENE CIP (FALSE)
 INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
-(1, 3, 1, 'Inicio de la limpieza', 'Retira válvulas, empaques (gomas/elastómeros) y accesorios. El producto es seguro para estos materiales.', FALSE),
+(1, 3, 1, 'Inicio de la limpieza', 'Retira válvulas, empaques(gomas / elastómeros) y accesorios. El producto es seguro para estos materiales.', FALSE),
 (1, 3, 2, 'Enjuague primario', 'Enjuaga el equipo con agua a presión para eliminar residuos de levadura, lúpulo o azúcares.', FALSE),
-(1, 3, 3, 'Lavado alcalino', 'Aplica la solución con un cepillo de cerdas suaves o paño, asegurando que todas las paredes internas queden cubiertas. Para zonas con incrustaciones difíciles, deja actuar la solución por 30 minutos antes de frotar. Si el equipo es pequeño, la inmersión total es la técnica más efectiva para asegurar que el desinfectante llegue a cada rincón.', FALSE),
+(1, 3, 3, 'Lavado alcalino', 'Aplica la solución con un cepillo de cerdas suaves o paño,
+        asegurando que todas las paredes internas queden cubiertas. Para zonas con incrustaciones difíciles,
+        deja actuar la solución por 30 minutos antes de frotar. Si el equipo es pequeño, la inmersión total es la técnica más efectiva para asegurar que el desinfectante llegue a cada rincón.', FALSE),
 (1, 3, 4, 'Enjuague secundario', 'Enjuaga con abundante agua limpia. Controla con tiras de pH hasta que el agua de salida marque un pH neutro (entre 7 y 8) para asegurar que no hay residuos del detergente.', FALSE),
 (1, 3, 7, 'Inspección', 'Inspecciona el interior del tanque para verificar que no queden residuos y deja secar al aire en un ambiente limpio o ensambla y mantén cerrado.', FALSE);
 
@@ -256,9 +261,10 @@ INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, d
 
 INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (1, 12, 0, 'Preparación del detergente', 'En caso de que utilices ALKLEAN, se recomienda una concentración aproximada del 2%. La preparación de este detergente se realiza agregando {{cantidad}} kg de detergente para {{volumen}} litros de agua.', FALSE),
-(1, 12, 1, 'Inicio de la limpieza', 'Retira válvulas, empaques (gomas/elastómeros) y accesorios. El producto es seguro para estos materiales. Sumérgelos en un balde con la misma solución al 2% durante el mismo tiempo que el fermentador.', FALSE),
+(1, 12, 1, 'Inicio de la limpieza', 'Retira válvulas, empaques(gomas / elastómeros) y accesorios. El producto es seguro para estos materiales. Sumérgelos en un balde con la misma solución al 2% durante el mismo tiempo que el fermentador.', FALSE),
 (1, 12, 2, 'Enjuague primario', 'Enjuaga el fermentador con agua a temperatura ambiente para eliminar los restos gruesos de levadura y sedimentos del fondo. No utilices agua a más de 50°C para evitar deformar o estresar el plástico.', FALSE),
-(1, 12, 3, 'Lavado alcalino', 'Vierte la solución preparada en el fermentador. Puedes realizar un llenado total o un lavado manual con un paño suave o esponja no abrasiva. Nunca uses fibras metálicas o cepillos de cerdas duras, ya que las rayas en el plástico son focos de contaminación imposibles de esterilizar después. Deja actuar la solución por un mínimo de 30 minutos.', FALSE),
+(1, 12, 3, 'Lavado alcalino', 'Vierte la solución preparada en el fermentador. Puedes realizar un llenado total o un lavado manual con un paño suave o esponja no abrasiva. Nunca uses fibras metálicas o cepillos de cerdas duras,
+        ya que las rayas en el plástico son focos de contaminación imposibles de esterilizar después. Deja actuar la solución por un mínimo de 30 minutos.', FALSE),
 (1, 12, 4, 'Enjuague secundario', 'Enjuaga con abundante agua limpia. Controla con tiras de pH hasta que el agua de salida marque un pH neutro (entre 7 y 8) para asegurar que no hay residuos del detergente.', FALSE),
 (1, 12, 5, 'Desinfección', 'ALKLEAN POWER ya actúa como desinfectante de amplio espectro y esterilizante químico en frío gracias a su alto poder oxidante.', FALSE),
 (1, 12, 6, 'Enjuague final', 'Enjuaga el tanque con agua fría para eliminar los residuos de la solución cáustica y prevenir la contaminación.', FALSE),
@@ -273,9 +279,10 @@ mantén cerrado.', FALSE);
 
 INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (1, 13, 0, 'Preparación del detergente', 'En caso de que utilices ALKLEAN, se recomienda una concentración aproximada del 2%. La preparación de este detergente se realiza agregando {{cantidad}} kg de detergente para {{volumen}} litros de agua.', FALSE),
-(1, 13, 1, 'Inicio de la limpieza', 'Retira válvulas, empaques (gomas/elastómeros) y accesorios. El producto es seguro para estos materiales. Sumérgelos en un balde con la misma solución al 2% durante el mismo tiempo que el fermentador.', FALSE),
+(1, 13, 1, 'Inicio de la limpieza', 'Retira válvulas, empaques(gomas / elastómeros) y accesorios. El producto es seguro para estos materiales. Sumérgelos en un balde con la misma solución al 2% durante el mismo tiempo que el fermentador.', FALSE),
 (1, 13, 2, 'Enjuague primario', 'Enjuaga el fermentador con agua a temperatura ambiente para eliminar los restos gruesos de levadura y sedimentos del fondo. No utilices agua a más de 50°C para evitar deformar o estresar el plástico.', FALSE),
-(1, 13, 3, 'Lavado alcalino', 'Vierte la solución preparada en el fermentador. Puedes realizar un llenado total o un lavado manual con un paño suave o esponja no abrasiva. Nunca uses fibras metálicas o cepillos de cerdas duras, ya que las rayas en el plástico son focos de contaminación imposibles de esterilizar después. Deja actuar la solución por un mínimo de 30 minutos.', FALSE),
+(1, 13, 3, 'Lavado alcalino', 'Vierte la solución preparada en el fermentador. Puedes realizar un llenado total o un lavado manual con un paño suave o esponja no abrasiva. Nunca uses fibras metálicas o cepillos de cerdas duras,
+        ya que las rayas en el plástico son focos de contaminación imposibles de esterilizar después. Deja actuar la solución por un mínimo de 30 minutos.', FALSE),
 (1, 13, 4, 'Enjuague secundario', 'Enjuaga con abundante agua limpia. Controla con tiras de pH hasta que el agua de salida marque un pH neutro (entre 7 y 8) para asegurar que no hay residuos del detergente.', FALSE),
 (1, 13, 5, 'Desinfección', 'ALKLEAN POWER ya actúa como desinfectante de amplio espectro y esterilizante químico en frío gracias a su alto poder oxidante.', FALSE),
 (1, 13, 6, 'Enjuague final', 'Enjuaga el tanque con agua fría para eliminar los residuos de la solución cáustica y prevenir la contaminación.', FALSE),
@@ -293,7 +300,9 @@ mantén cerrado.', FALSE);
 INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (2, 11, 0, 'Preparación del eqiopo', 'Detener el molino, desconectar de la fuente de energía y aplicar bloqueo/etiquetado. Abrir el molino y exponer la piedra de molienda y las superficies internas de la carcasa. Asegurarse de tener a mano las herramientas permitidas (brochas de nylon, espátulas plásticas y aspiradora HEPA).', FALSE),
 (2, 11, 1, 'Inicio de la limpieza', 'Barrer con brocha de cerdas naturales o nylon la superficie activa, ranuras y bordes. Utilizar aspiradora industrial con filtro HEPA para retirar el polvo suelto. Remover únicamente con espátula plástica o raspador de madera (prohibido usar herramientas metálicas, alcohol o aceites en la piedra).', FALSE),
-(2, 11, 2, 'Inspección', 'Revisar visualmente la superficie en busca de acumulación de grasa natural del grano, microfisuras o zonas apelmazadas que afecten la molienda. Confirmar que no queden restos de humedad en los ejes o carcasas. Cerrar el equipo, retirar el bloqueo y registrar la actividad indicando la frecuencia (diaria o por cambio de lote).', FALSE);
+(2, 11, 2, 'Inspección', 'Revisar visualmente la superficie en busca de acumulación de grasa natural del grano,
+        microfisuras o zonas apelmazadas que afecten la molienda. Confirmar que no queden restos de humedad en los ejes o carcasas. Cerrar el equipo,
+        retirar el bloqueo y registrar la actividad indicando la frecuencia (diaria o por cambio de lote).', FALSE);
 
 -- ==========================================
 -- MOLINO DE CEBADA (ID EQUIPMENT: 2)
@@ -303,8 +312,11 @@ INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, d
 -- ==========================================
 INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (2, 6, 0, 'Preparación del equipo', 'Detener el molino, desconectar de la fuente de energía y aplicar bloqueo/etiquetado. Abrir el molino y exponer la piedra de molienda y las superficies internas de la carcasa. Asegurarse de tener a mano las herramientas permitidas (brochas de nylon, espátulas plásticas y aspiradora HEPA).', FALSE),
-(2, 6, 1, 'Inicio de la limpieza', 'Cepillar con brocha muy suave para remover restos de grano. Aspirar los residuos para evitar que entren en los rodamientos. Usar un paño apenas humedecido con alcohol isopropílico y secar de inmediato. Limpiar con paño seco. Solo en estas partes de acero/hierro se permite el uso de alcohol o detergente si es estrictamente necesario. No aplicar ALKLEAN ni ningún producto alcalino sobre los rodillos, ya que el aluminio es sensible a la corrosión.', FALSE),
-(2, 6, 2, 'Inspección', 'Revisar visualmente la superficie en busca de acumulación de grasa natural del grano, microfisuras o zonas apelmazadas que afecten la molienda. Confirmar que no queden restos de humedad en los ejes o carcasas. Cerrar el equipo, retirar el bloqueo y registrar la actividad indicando la frecuencia (diaria o por cambio de lote).', FALSE );
+(2, 6, 1, 'Inicio de la limpieza', 'Cepillar con brocha muy suave para remover restos de grano. Aspirar los residuos para evitar que entren en los rodamientos. Usar un paño apenas humedecido con alcohol isopropílico y secar de inmediato. Limpiar con paño seco. Solo en estas partes de acero/hierro se permite el uso de alcohol o detergente si es estrictamente necesario. No aplicar ALKLEAN ni ningún producto alcalino sobre los rodillos,
+        ya que el aluminio es sensible a la corrosión.', FALSE),
+(2, 6, 2, 'Inspección', 'Revisar visualmente la superficie en busca de acumulación de grasa natural del grano,
+        microfisuras o zonas apelmazadas que afecten la molienda. Confirmar que no queden restos de humedad en los ejes o carcasas. Cerrar el equipo,
+        retirar el bloqueo y registrar la actividad indicando la frecuencia (diaria o por cambio de lote).', FALSE );
 
 -- ==========================================
 -- MOLINO DE CEBADA (ID EQUIPMENT: 2)
@@ -315,8 +327,11 @@ INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, d
 
 INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (2, 2, 0, 'Preparación del equipo', 'Detener el molino, desconectar de la fuente de energía y aplicar bloqueo/etiquetado. Abrir el molino y exponer la piedra de molienda y las superficies internas de la carcasa. Asegurarse de tener a mano las herramientas permitidas (brochas de nylon, espátulas plásticas y aspiradora HEPA).', FALSE),
-(2, 2, 1, 'Inicio de la limpieza', 'Realizar un cepillado en seco vigoroso con nylon medio para desprender restos de grano y harina. Eliminar todo el polvo residual con filtro HEPA. En caso de grasa de grano adherida, utilizar un paño con alcohol isopropílico. Si el fabricante lo autoriza, aplicar una capa mínima de aceite grado alimentario para protección post-limpieza.', FALSE),
-(2, 2, 2, 'Inspección', 'Revisar visualmente la superficie en busca de acumulación de grasa natural del grano, microfisuras o zonas apelmazadas que afecten la molienda. Confirmar que no queden restos de humedad en los ejes o carcasas. Cerrar el equipo, retirar el bloqueo y registrar la actividad indicando la frecuencia (diaria o por cambio de lote).', FALSE);
+(2, 2, 1, 'Inicio de la limpieza', 'Realizar un cepillado en seco vigoroso con nylon medio para desprender restos de grano y harina. Eliminar todo el polvo residual con filtro HEPA. En caso de grasa de grano adherida,
+        utilizar un paño con alcohol isopropílico. Si el fabricante lo autoriza, aplicar una capa mínima de aceite grado alimentario para protección post-limpieza.', FALSE),
+(2, 2, 2, 'Inspección', 'Revisar visualmente la superficie en busca de acumulación de grasa natural del grano,
+        microfisuras o zonas apelmazadas que afecten la molienda. Confirmar que no queden restos de humedad en los ejes o carcasas. Cerrar el equipo,
+        retirar el bloqueo y registrar la actividad indicando la frecuencia (diaria o por cambio de lote).', FALSE);
 
 -- ==========================================
 -- MOLINO DE CEBADA (ID EQUIPMENT: 2)
@@ -327,7 +342,11 @@ INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, d
 
 INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (2, 4, 0, 'Preparación del equipo', 'Detener el molino, desconectar de la fuente de energía y aplicar bloqueo/etiquetado. Abrir el molino y exponer la piedra de molienda y las superficies internas de la carcasa. Asegurarse de tener a mano las herramientas permitidas (brochas de nylon, espátulas plásticas y aspiradora HEPA).', FALSE),
-(2, 4, 1, 'Inicio de la limpieza', 'Cepillar los rodillos con nylon y aspirar inmediatamente. Aspirar es superior al aire comprimido, ya que este último dispersa partículas hacia los rodamientos. Si hay grasa seca, usar paño con alcohol isopropílico de aplicación rápida y secar completamente. Aplicar una película muy fina de aceite grado alimentario. Retirar el exceso con un pañoo seco para que no afecte el flujo del grano; nunca dejar el metal expuesto al aire sin protección.', FALSE),
+(2, 4, 1, 'Inicio de la limpieza', 'Cepillar los rodillos con nylon y aspirar inmediatamente. Aspirar es superior al aire comprimido,
+        ya que este último dispersa partículas hacia los rodamientos. Si hay grasa seca,
+        usar paño con alcohol isopropílico de aplicación rápida y secar completamente. Aplicar una película muy fina de aceite grado alimentario. Retirar el exceso con un pañoo seco para que no afecte el flujo del grano;
+nunca
+dejar el metal expuesto al aire sin protección.', FALSE),
 (2, 4, 2, 'Inspección', 'Revisar visualmente la superficie en busca de acumulación de grasa natural del grano, microfisuras o zonas apelmazadas que afecten la molienda. Confirmar que no queden restos de humedad en los ejes o carcasas. Cerrar el equipo, retirar el bloqueo y registrar la actividad indicando la frecuencia (diaria o por cambio de lote).', FALSE);
 
 -- ==========================================
@@ -340,14 +359,16 @@ INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, d
 (3, 2, 0, 'Preparación del detergente', 'En caso de que utilices ALKLEAN, se recomienda una concentración aproximada del 2 %. La preparación de este detergente se realiza agregando {{cantidad}} kg de detergente para {{volumen}} litros de agua. Agregar siempre el producto al agua de forma espolvoreada, nunca el agua al producto.', TRUE ),
 (3, 2, 1, 'Inicio de la limpieza', 'Drena cualquier resto de cerveza o sedimento de levadura del tanque y enjuaga el interior con agua tibia para eliminar residuos sueltos.', TRUE),
 (3, 2, 2, 'Enjuague primario', 'Enjuaga el tanque con agua tibia a través del sistema CIP para eliminar partículas restantes y preparar el tanque para la limpieza.', TRUE),
-(3, 2, 3, 'Lavado Alcalino', 'Añade el detergente de limpieza ALKLEAN al sistema CIP. Recircula la solución por el sistema CIP durante 30 minutos a una temperatura aproximada de 40-50°C. Asegúrate de que entre en contacto con todas las superficies interiores para descomponer los residuos orgánicos.', TRUE),
+(3, 2, 3, 'Lavado Alcalino', 'Añade el detergente de limpieza ALKLEAN al sistema CIP. Recircula la solución por el sistema CIP durante 30 minutos a una temperatura aproximada de 40-50
+°C. Asegúrate de que entre en contacto con todas las superficies interiores para descomponer los residuos orgánicos.', TRUE),
 (3, 2, 4, 'Enjuague secundario', 'Enjuaga el tanque con agua caliente para eliminar los residuos de la solución cáustica y prevenir la contaminación.', TRUE),
 (3, 2, 7, 'Inspección', 'Inspecciona el interior del tanque para verificar que no queden residuos y cierra todas las conexiones del tanque de forma segura para prepararlo para el siguiente lote.', TRUE);
 
 -- SIN CIP
 INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (3, 2, 0, 'Preparación del detergente', 'En caso de que utilices ALKLEAN se recomienda una concentración aproximada del 2 %. La preparación de este detergente se realiza agregando {{cantidad}} kg de detergente para {{volumen}} litros de agua.', FALSE),
-(3, 2, 1, 'Inicio de la limpieza', 'Retira v´alvulas, empaques (gomas/elastómeros) y accesorios. El producto es seguro para estos materiales.', FALSE),
+(3, 2, 1, 'Inicio de la limpieza', 'Retira v
+´alvulas, empaques (gomas/elastómeros) y accesorios. El producto es seguro para estos materiales.', FALSE),
 (3, 2, 2, 'Enjuague primario', 'Enjuaga el equipo con agua a presión para eliminar residuos de levadura, lúpulo o azúcares.', FALSE),
 (3, 2, 3, 'Lavado alcalino', 'Aplica la solución con un cepillo de cerdas suaves o paño, asegurando que todas las paredes internas queden cubiertas. Para zonas con incrustaciones difíciles, deja actuar la solución por 30 minutos antes de frotar. Si el equipo es pequeño, la inmersión total es la técnica más efectiva para asegurar que el desinfectante llegue a cada rincón.', FALSE),
 (3, 2, 4, 'Enjuague secundario', 'Enjuaga con abundante agua limpia. Controla con tiras de pH hasta que el agua de salida marque un pH neutro (entre 7 y 8) para asegurar que no hay residuos del detergente.', FALSE),
@@ -368,7 +389,8 @@ INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, d
 (4, 2, 0, 'Preparación del detergente', 'En caso de que utilices ALKLEAN, se recomienda una concentración aproximada del 2%. La preparación de este detergente se realiza agregando {{cantidad}} kg de detergente para {{volumen}} litros de agua. Agregar siempre el producto al agua de forma espolvoreada, nunca el agua al producto.', TRUE),
 (4, 2, 1, 'Inicio de la limpieza', 'Drena cualquier resto de cerveza o sedimento de levadura del tanque y enjuaga el interior con agua tibia para eliminar residuos sueltos.', TRUE),
 (4, 2, 2, 'Enjuague primario', 'Enjuaga el tanque con agua tibia a través del sistema CIP para eliminar partículas restantes y preparar el tanque para la limpieza.', TRUE ),
-(4, 2, 3, 'Lavado alcalino', 'Añade el detergente de limpieza ALKLEAN al sistema CIP. Recircula la solución por el sistema CIP durante 30 minutos a una temperatura aproximada de 40-50°C. Asegúrate de que entre en contacto con todas las superficies interiores para descomponer los residuos orgánicos.', TRUE),
+(4, 2, 3, 'Lavado alcalino', 'Añade el detergente de limpieza ALKLEAN al sistema CIP. Recircula la solución por el sistema CIP durante 30 minutos a una temperatura aproximada de 40-50
+°C. Asegúrate de que entre en contacto con todas las superficies interiores para descomponer los residuos orgánicos.', TRUE),
 (4, 2, 4, 'Enjuague secundario', 'Enjuaga el tanque con agua caliente para eliminar los residuos de la solución cáustica y prevenir la contaminación.', TRUE),
 (4, 2, 7, 'Inspección', 'Inspecciona el interior del tanque para verificar que no queden residuos y cierra todas las conexiones del tanque de forma segura para prepararlo para el siguiente lote.', TRUE);
 
@@ -396,7 +418,8 @@ INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, d
 (4, 3, 0, 'Preparación del detergente', 'En caso de que utilices ALKLEAN, se recomienda una concentración aproximada del 2%. La preparación de este detergente se realiza agregando {{cantidad}} kg de detergente para {{volumen}} litros de agua. Agregar siempre el producto al agua de forma espolvoreada, nunca el agua al producto.', TRUE),
 (4, 3, 1, 'Inicio de la limpieza', 'Drena cualquier resto de cerveza o sedimento de levadura del tanque y enjuaga el interior con agua tibia para eliminar residuos sueltos.', TRUE),
 (4, 3, 2, 'Enjuague primario', 'Enjuaga el tanque con agua tibia a través del sistema CIP para eliminar partículas restantes y preparar el tanque para la limpieza.', TRUE ),
-(4, 3, 3, 'Lavado alcalino', 'Añade el detergente de limpieza ALKLEAN al sistema CIP. Recircula la solución por el sistema CIP durante 30 minutos a una temperatura aproximada de 40-50°C. Asegúrate de que entre en contacto con todas las superficies interiores para descomponer los residuos orgánicos.', TRUE),
+(4, 3, 3, 'Lavado alcalino', 'Añade el detergente de limpieza ALKLEAN al sistema CIP. Recircula la solución por el sistema CIP durante 30 minutos a una temperatura aproximada de 40-50
+°C. Asegúrate de que entre en contacto con todas las superficies interiores para descomponer los residuos orgánicos.', TRUE),
 (4, 3, 4, 'Enjuague secundario', 'Enjuaga el tanque con agua caliente para eliminar los residuos de la solución cáustica y prevenir la contaminación.', TRUE),
 (4, 3, 7, 'Inspección', 'Inspecciona el interior del tanque para verificar que no queden residuos y cierra todas las conexiones del tanque de forma segura para prepararlo para el siguiente lote.', TRUE);
 
@@ -424,8 +447,11 @@ INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, d
 INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (5, 2, 0, 'Preparación del detergente', 'En caso de que utilices ALKLEAN, se recomienda una concentración aproximada del 2%. La preparación de este detergente se realiza agregando {{cantidad}} kg de detergente para {{volumen}} litros de agua. Agregar siempre el producto al agua de forma espolvoreada, nunca el agua al producto.', TRUE),
 (5, 2, 1, 'Inicio de la limpieza', 'Aislar el intercambiador del resto del sistema. Conectar las mangueras de recirculación en sentido inverso al flujo normal (backwash) para ayudar a desprender partículas atrapadas entre las placas.', TRUE),
-(5, 2, 2, 'Enjuague primario', 'Circular agua tibia (máximo 50°C) para arrastrar los restos de mosto y sedimentos sueltos hasta que el agua salga clara.', TRUE),
-(5, 2, 3, 'Lavado Alcalino', 'A˜nade el detergente de limpieza ALKLEAN al sistema CIP. Recircula la solución por el sistema CIP durante 30 minutos a una temperatura aproximada de 40-50°C. Asegúrate de que entre en contacto con todas las superficies interiores para descomponer los residuos orgánicos.', TRUE),
+(5, 2, 2, 'Enjuague primario', 'Circular agua tibia (máximo 50
+°C) para arrastrar los restos de mosto y sedimentos sueltos hasta que el agua salga clara.', TRUE),
+(5, 2, 3, 'Lavado Alcalino', 'A
+˜nade el detergente de limpieza ALKLEAN al sistema CIP. Recircula la solución por el sistema CIP durante 30 minutos a una temperatura aproximada de 40-50
+°C. Asegúrate de que entre en contacto con todas las superficies interiores para descomponer los residuos orgánicos.', TRUE),
 (5, 2, 4, 'Enjuague secundario', 'Circular agua potable para eliminar los restos del detergente alcalino.', TRUE);
 
 
@@ -433,7 +459,9 @@ INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, d
 INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (5, 2, 0, 'Preparación del detergente', 'En caso de que utilices ALKLEAN, se recomienda una concentración aproximada del 2%. La preparación de este detergente se realiza agregando {{cantidad}} kg de detergente para {{volumen}} litros de agua.', FALSE),
 (5, 2, 1, 'Inicio de la limpieza', 'Desajustar los pernos de compresión de forma simétrica. Marcar las placas con una línea diagonal exterior para asegurar que se reensamblen en el mismo orden y posición.', FALSE),
-(5, 2, 2, 'Enjuague primario', 'Separar las placas una a una y aplicar agua a presiÓn para retirar el grueso del sedimento o ”piedra de cerveza”.', FALSE),
+(5, 2, 2, 'Enjuague primario', 'Separar las placas una a una y aplicar agua a presiÓn para retirar el grueso del sedimento o
+”piedra de cerveza
+”.', FALSE),
 (5, 2, 3, 'Lavado alcalino', 'Sumergir las placas en la solución de ALKLEAN POWER durante 30 minutos. El poder oxidante desprenderá las proteínas pegadas sin necesidad de tallado abrasivo.', FALSE),
 (5, 2, 4, 'Enjuague secundario', 'Enjuaga con abundante agua limpia. Controla con tiras de pH hasta que el agua de salida marque un pH neutro (entre 7 y 8) para asegurar que no hay residuos del detergente.', FALSE);
 
@@ -454,15 +482,20 @@ INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, d
 INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (5, 3, 0, 'Preparación del detergente', 'En caso de que utilices ALKLEAN, se recomienda una concentración aproximada del 2%. La preparación de este detergente se realiza agregando {{cantidad}} kg de detergente para {{volumen}} litros de agua. Agregar siempre el producto al agua de forma espolvoreada, nunca el agua al producto.', TRUE),
 (5, 3, 1, 'Inicio de la limpieza', 'Aislar el intercambiador del resto del sistema. Conectar las mangueras de recirculación en sentido inverso al flujo normal (backwash) para ayudar a desprender partículas atrapadas entre las placas.', TRUE),
-(5, 3, 2, 'Enjuague primario', 'Circular agua tibia (máximo 50°C) para arrastrar los restos de mosto y sedimentos sueltos hasta que el agua salga clara.', TRUE),
-(5, 3, 3, 'Lavado Alcalino', 'A˜nade el detergente de limpieza ALKLEAN al sistema CIP. Recircula la solución por el sistema CIP durante 30 minutos a una temperatura aproximada de 40-50°C. Asegúrate de que entre en contacto con todas las superficies interiores para descomponer los residuos orgánicos.', TRUE),
+(5, 3, 2, 'Enjuague primario', 'Circular agua tibia (máximo 50
+°C) para arrastrar los restos de mosto y sedimentos sueltos hasta que el agua salga clara.', TRUE),
+(5, 3, 3, 'Lavado Alcalino', 'A
+˜nade el detergente de limpieza ALKLEAN al sistema CIP. Recircula la solución por el sistema CIP durante 30 minutos a una temperatura aproximada de 40-50
+°C. Asegúrate de que entre en contacto con todas las superficies interiores para descomponer los residuos orgánicos.', TRUE),
 (5, 3, 4, 'Enjuague secundario', 'Circular agua potable para eliminar los restos del detergente alcalino.', TRUE);
 
 -- SIN CIP
 INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (5, 3, 0, 'Preparación del detergente', 'En caso de que utilices ALKLEAN, se recomienda una concentración aproximada del 2%. La preparación de este detergente se realiza agregando {{cantidad}} kg de detergente para {{volumen}} litros de agua.', FALSE),
 (5, 3, 1, 'Inicio de la limpieza', 'Desajustar los pernos de compresión de forma simétrica. Marcar las placas con una línea diagonal exterior para asegurar que se reensamblen en el mismo orden y posición.', FALSE),
-(5, 3, 2, 'Enjuague primario', 'Separar las placas una a una y aplicar agua a presiÓn para retirar el grueso del sedimento o ”piedra de cerveza”.', FALSE),
+(5, 3, 2, 'Enjuague primario', 'Separar las placas una a una y aplicar agua a presiÓn para retirar el grueso del sedimento o
+”piedra de cerveza
+”.', FALSE),
 (5, 3, 3, 'Lavado alcalino', 'Sumergir las placas en la solución de ALKLEAN POWER durante 30 minutos. El poder oxidante desprenderá las proteínas pegadas sin necesidad de tallado abrasivo.', FALSE),
 (5, 3, 4, 'Enjuague secundario', 'Enjuaga con abundante agua limpia. Controla con tiras de pH hasta que el agua de salida marque un pH neutro (entre 7 y 8) para asegurar que no hay residuos del detergente.', FALSE);
 
@@ -550,7 +583,8 @@ INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, d
 INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (6, 2, 0, 'Preparación del detergente', 'En caso de que utilices ALKLEAN, se recomienda una concentración aproximada del 1%. La preparación de este detergente se realiza agregando {{cantidad}} kg de detergente para {{volumen}} litros de agua.', NULL),
 (6, 2, 1, 'Inicio de la limpieza', 'Desarmar completamente el sifón o caña, separando tubos, uniones y accesorios. Inspeccionar visualmente el estado del equipo.', NULL),
-(6, 2, 2, 'Enjuague primario', 'Enjuagar todas las piezas con agua potable a 20–40°C para eliminar residuos visibles. No utilizar agua caliente.', NULL),
+(6, 2, 2, 'Enjuague primario', 'Enjuagar todas las piezas con agua potable a 20
+–40°C para eliminar residuos visibles. No utilizar agua caliente.', NULL),
 (6, 2, 4, 'Enjuague secundario', 'Enjuagar con abundante agua potable hasta alcanzar pH neutro (7), verificando con cinta indicadora o pH-metro.', NULL),
 (6, 2, 5, 'Desinfección', 'ALKLEAN POWER ya actúa como desinfectante de amplio espectro y esterilizante químico en frío gracias a su alto poder oxidante.', NULL),
 (6, 2, 6, 'Enjuague final', 'Enjuaga el tanque con agua fría para eliminar los residuos de la solución cáustica y prevenir la contaminación.', NULL),
@@ -582,13 +616,20 @@ INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, d
 
 INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (8, 1, 0, 'Preparación del detergente', 'En caso de que utilices ALKLEAN, se recomienda una concentración aproximada del 1%. La preparación de este detergente se realiza agregando {{cantidad}} kg de detergente para {{volumen}} litros de agua.', FALSE),
-(8, 1, 1, 'Inicio de la limpieza', 'Despresurice completamente el keg. Retire la válvula (Sankey) o desconecte postes y tapas (Cornelius). Extraiga empaques y o-rings. Sumerja válvulas, lanzas, postes, tapas y o-rings en la misma solución detergente seǵun el tiempo indicado por el fabricante. Cepille con escobilla de nylon.', FALSE),
+(8, 1, 1, 'Inicio de la limpieza', 'Despresurice completamente el keg. Retire la válvula (Sankey) o desconecte postes y tapas (Cornelius). Extraiga empaques y o-rings. Sumerja válvulas, lanzas, postes, tapas y o-rings en la misma solución detergente seg
+́un el tiempo indicado por el fabricante. Cepille con escobilla de nylon.', FALSE),
 (8, 1, 2, 'Enjuague primario', 'Enjuague el interior del barril con agua potable caliente para remover residuos gruesos de cerveza, levadura y sedimentos.', FALSE),
-(8, 1, 3, 'Lavado alcalino', 'Llene el keg parcialmente con la solución detergente preparada. Cepille manualmente el interior con cepillo espećıfico para kegs. Asegure contacto del detergente con paredes, fondo y cuello.', FALSE),
-(8, 1, 4, 'Enjuague secundario', 'Enjuague el barril y los accesorios con abundante agua potable hasta eliminar completamente residuos alcalinos. Verifique pH neutro en agua de salida (pH 6,5–8).', FALSE),
-(8, 1, 5, 'Desinfección', 'Aplique desinfectante grado alimentario (ácido peracético 0,1–0,2 %, iodóforo o amonio cuaternario autorizado). Asegure contacto total durante 2–5 minutos.', FALSE),
+(8, 1, 3, 'Lavado alcalino', 'Llene el keg parcialmente con la solución detergente preparada. Cepille manualmente el interior con cepillo espec
+́ıfico para kegs. Asegure contacto del detergente con paredes, fondo y cuello.', FALSE),
+(8, 1, 4, 'Enjuague secundario', 'Enjuague el barril y los accesorios con abundante agua potable hasta eliminar completamente residuos alcalinos. Verifique pH neutro en agua de salida (pH 6,5
+–8).', FALSE),
+(8, 1, 5, 'Desinfección', 'Aplique desinfectante grado alimentario (ácido peracético 0,1
+–0,2 %, iodóforo o amonio cuaternario autorizado). Asegure contacto total durante 2
+–5 minutos.', FALSE),
 (8, 1, 6, 'Enjuague final', 'Realizar solo si el desinfectante no es no-rinse.', FALSE),
-(8, 1, 7, 'Inspección', 'Verifique limpieza interna, ausencia de olores y correcto estado de empaques. Registre la operacíon seǵun plan de saneamiento.', FALSE);
+(8, 1, 7, 'Inspección', 'Verifique limpieza interna, ausencia de olores y correcto estado de empaques. Registre la operaci
+́on seg
+́un plan de saneamiento.', FALSE);
 
 -- ==========================================
 -- BARRILES KEGS (ID EQUIPMENT: 8)
@@ -597,14 +638,25 @@ INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, d
 -- ==========================================
 
 INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
-(8, 6, 0, 'Preparación del detergente', 'Prepare una solucíon de detergente neutro o alcalino de baja causticidad al 0,5% v/v, agregando {{ cantidad }} kg de detergente en {{ volumen }} litros de agua tibia (45°C).', FALSE),
-(8, 6, 1, 'Inicio de la limpieza', 'Despresurice completamente el keg. Retire la válvula (Sankey) o desconecte postes y tapas (Cornelius). Extraiga empaques y o-rings. Sumerja válvulas, lanzas, postes, tapas y o-rings en la misma solución detergente seǵun el tiempo indicado por el fabricante. Cepille con escobilla de nylon.', FALSE),
+(8, 6, 0, 'Preparación del detergente', 'Prepare una soluci
+́on de detergente neutro o alcalino de baja causticidad al 0,5% v/v, agregando {{ cantidad }} kg de detergente en {{ volumen }} litros de agua tibia (45
+°C).', FALSE),
+(8, 6, 1, 'Inicio de la limpieza', 'Despresurice completamente el keg. Retire la válvula (Sankey) o desconecte postes y tapas (Cornelius). Extraiga empaques y o-rings. Sumerja válvulas, lanzas, postes, tapas y o-rings en la misma solución detergente seg
+́un el tiempo indicado por el fabricante. Cepille con escobilla de nylon.', FALSE),
 (8, 6, 2, 'Enjuague primario', 'Enjuague el interior del barril con agua potable caliente para remover residuos gruesos de cerveza, levadura y sedimentos.', FALSE),
-(8, 6, 3, 'Lavado alcalino', 'Llene parcialmente el barril con la solucíon detergente. Cepille suavemente el interior con cepillo de nylon. Evite tiempos prolongados. Tiempo de contacto ḿaximo de 10–15 minutos.', FALSE),
-(8, 6, 4, 'Enjuague secundario', 'Enjuague el barril y los accesorios con abundante agua potable hasta eliminar completamente residuos alcalinos. Verifique pH neutro en agua de salida (pH 6,5–8).', FALSE),
-(8, 6, 5, 'Desinfección', 'Aplique desinfectante grado alimentario (ácido peracético 0,1–0,2 %, iodóforo o amonio cuaternario autorizado). Asegure contacto total durante 2–5 minutos.', FALSE),
+(8, 6, 3, 'Lavado alcalino', 'Llene parcialmente el barril con la soluci
+́on detergente. Cepille suavemente el interior con cepillo de nylon. Evite tiempos prolongados. Tiempo de contacto m
+́aximo de 10
+–15 minutos.', FALSE),
+(8, 6, 4, 'Enjuague secundario', 'Enjuague el barril y los accesorios con abundante agua potable hasta eliminar completamente residuos alcalinos. Verifique pH neutro en agua de salida (pH 6,5
+–8).', FALSE),
+(8, 6, 5, 'Desinfección', 'Aplique desinfectante grado alimentario (ácido peracético 0,1
+–0,2 %, iodóforo o amonio cuaternario autorizado). Asegure contacto total durante 2
+–5 minutos.', FALSE),
 (8, 6, 6, 'Enjuague final', 'Realizar solo si el desinfectante no es no-rinse.', FALSE),
-(8, 6, 7, 'Inspección', 'Verifique limpieza interna, ausencia de olores y correcto estado de empaques. Registre la operacíon seǵun plan de saneamiento.', FALSE);
+(8, 6, 7, 'Inspección', 'Verifique limpieza interna, ausencia de olores y correcto estado de empaques. Registre la operaci
+́on seg
+́un plan de saneamiento.', FALSE);
 
 -- ==========================================
 -- CARBONATADORES (ID EQUIPMENT: 9)
@@ -615,12 +667,19 @@ INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, d
 INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, description, requires_cip) VALUES
 (9, 8, 0, 'Preparación del detergente', 'en caso de que usted utilice ALKLEAN POWER TRIPLE EFECTO (Espuma) se recomienda una concentración aproximada del 1 %. La preparación de este detergente se realiza agregando {{ cantidad }} kg de detergente para {{ volumen }} litros de agua.', FALSE),
 (9, 8, 1, 'Inicio de la limpieza', 'Vaciar completamente el tanque.', FALSE),
-(9, 8, 2, 'Enjuague primario', 'Recircular agua potable a 20–30°C durante al menos 2 minutos para eliminar cerveza residual.', FALSE),
-(9, 8, 3, 'Lavado alcalino', 'Recircular solucíon de ALKLEAN POWER asegurando flujo continuo a trav́es de la piedra difusora por 30 minutos a temperatura entre los 20 a 40°C.', FALSE),
+(9, 8, 2, 'Enjuague primario', 'Recircular agua potable a 20
+–30°C durante al menos 2 minutos para eliminar cerveza residual.', FALSE),
+(9, 8, 3, 'Lavado alcalino', 'Recircular soluci
+́on de ALKLEAN POWER asegurando flujo continuo a trav
+́es de la piedra difusora por 30 minutos a temperatura entre los 20 a 40
+°C.', FALSE),
 (9, 8, 4, 'Enjuague secundario', 'Enjuagar con agua potable hasta pH cercano a neutro.', FALSE),
-(9, 8, 5, 'Desinfección', 'Aplique desinfectante grado alimentario (ácido peracético 0,1–0,2 %, iodóforo o amonio cuaternario autorizado). Asegure contacto total durante 2–5 minutos.', FALSE),
+(9, 8, 5, 'Desinfección', 'Aplique desinfectante grado alimentario (ácido peracético 0,1
+–0,2 %, iodóforo o amonio cuaternario autorizado). Asegure contacto total durante 2
+–5 minutos.', FALSE),
 (9, 8, 6, 'Enjuague final', 'Realizar solo si el desinfectante no es no-rinse.', FALSE),
-(9, 8, 7, 'Inspección', 'Mantener la piedra llena de solucíon sanitizante o purgada con CO2 hasta su uso.', FALSE);
+(9, 8, 7, 'Inspección', 'Mantener la piedra llena de soluci
+́on sanitizante o purgada con CO2 hasta su uso.', FALSE);
 
 -- ==========================================
 -- CARBONATADORES (ID EQUIPMENT: 9)
@@ -634,7 +693,9 @@ INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, d
 (9, 2, 2, 'Enjuague primario', 'Realizar enjuague manual con agua potable.', FALSE),
 (9, 2, 3, 'Lavado alcalino', 'Aplicar espuma de ALKLEAN POWER TRIPLE EFECTO sobre todas las superficies internas por 20 minutos. Aplicar acción mecánica suave en zonas críticas si es necesario. Mantener el tiempo de contacto de 20 minutos.', FALSE),
 (9, 2, 4, 'Enjuague secundario', 'Enjuagar con agua potable hasta pH cercano a neutro.', FALSE),
-(9, 2, 5, 'Desinfección', 'Aplique desinfectante grado alimentario (ácido peracético 0,1–0,2 %, iodóforo o amonio cuaternario autorizado). Asegure contacto total durante 2–5 minutos.', FALSE),
+(9, 2, 5, 'Desinfección', 'Aplique desinfectante grado alimentario (ácido peracético 0,1
+–0,2 %, iodóforo o amonio cuaternario autorizado). Asegure contacto total durante 2
+–5 minutos.', FALSE),
 (9, 2, 6, 'Enjuague final', 'Realizar solo si el desinfectante no es no-rinse.', FALSE),
 (9, 2, 7, 'Inspección', 'Dejar escurrir, cerrar el tanque y mantener protegido de recontaminación. Inspeccionar visualmente el estado del material. Registrar la operación según plan de saneamiento.', FALSE);
 
@@ -650,6 +711,8 @@ INSERT INTO protocol_steps (equipment_id, material_id, step_number, step_name, d
 (9, 3, 2, 'Enjuague primario', 'Realizar enjuague manual con agua potable.', FALSE),
 (9, 3, 3, 'Lavado alcalino', 'Aplicar espuma de ALKLEAN POWER TRIPLE EFECTO sobre todas las superficies internas por 20 minutos. Aplicar acción mecánica suave en zonas críticas si es necesario. Mantener el tiempo de contacto de 20 minutos.', FALSE),
 (9, 3, 4, 'Enjuague secundario', 'Enjuagar con agua potable hasta pH cercano a neutro.', FALSE),
-(9, 3, 5, 'Desinfección', 'Aplique desinfectante grado alimentario (ácido peracético 0,1–0,2 %, iodóforo o amonio cuaternario autorizado). Asegure contacto total durante 2–5 minutos.', FALSE),
+(9, 3, 5, 'Desinfección', 'Aplique desinfectante grado alimentario (ácido peracético 0,1
+–0,2 %, iodóforo o amonio cuaternario autorizado). Asegure contacto total durante 2
+–5 minutos.', FALSE),
 (9, 3, 6, 'Enjuague final', 'Realizar solo si el desinfectante no es no-rinse.', FALSE),
 (9, 3, 7, 'Inspección', 'Dejar escurrir, cerrar el tanque y mantener protegido de recontaminación. Inspeccionar visualmente el estado del material. Registrar la operación según plan de saneamiento.', FALSE);
