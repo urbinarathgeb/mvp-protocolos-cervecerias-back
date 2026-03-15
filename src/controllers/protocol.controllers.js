@@ -194,3 +194,36 @@ export const createProtocol = async (req, res) => {
     });
   }
 };
+
+export const deleteProtocol = async (req, res) => {
+  const { id } = req.params;
+  const user_uid = req.user ? req.user.firebase_uid : null;
+
+  if (!user_uid) {
+    return res.status(401).json({ error: 'Usuario no identificado.' });
+  }
+
+  try {
+    // Verificamos que el protocolo pertenezca al usuario antes de borrar
+    const deleteQuery = `
+      DELETE FROM user_protocols 
+      WHERE id = $1 AND user_id = $2 
+      RETURNING *
+    `;
+    const result = await pool.query(deleteQuery, [id, user_uid]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({
+        error: 'Protocolo no encontrado o no pertenece al usuario.',
+      });
+    }
+
+    res.json({ message: 'Protocolo eliminado correctamente', protocol: result.rows[0] });
+  } catch (error) {
+    console.error('Error al eliminar el protocolo:', error);
+    res.status(500).json({
+      error: 'Error al eliminar el protocolo',
+      details: error.message,
+    });
+  }
+};
