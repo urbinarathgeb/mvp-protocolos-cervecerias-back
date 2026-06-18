@@ -2,9 +2,8 @@
 
 ## Desarrollo de una API REST para gestionar protocolos cerveceros
 
-### Desarrollado por: [Tu Nombre]
+### Desarrollado por Javier Urbina
 
-### Fecha: [Fecha de creación]
 
 ### Descripción
 
@@ -22,9 +21,6 @@ Este proyecto consta de una API REST que permite gestionar protocolos cerveceros
 - Node.js
 - Express.js
 - PostgreSQL
-- Sequelize ??
-- dotenv ??
-- nodemon ??
 
 ### Instalación
 
